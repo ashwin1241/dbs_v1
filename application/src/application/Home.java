@@ -45,6 +45,12 @@ public class Home {
 		p2.setLayout(null);
 		p2.setVisible(true);
 		p1.add(p2);
+		JPanel p3 = new JPanel();
+		p3.setBounds(500,240,1040,620);
+		p3.setBackground(new Color(0,0,0,0));
+		p3.setLayout(null);
+		p3.setVisible(true);
+		bg.add(p3);
 		JLabel l0 = new JLabel();
 		l0.setText("Welcome,");
 		l0.setFont(new Font("Times New Roman",Font.BOLD,25));
@@ -134,13 +140,13 @@ public class Home {
 		l4.setBounds(15,5,150,40);
 		l4.setForeground(new Color(53,0,102));
 		p2.add(l4);
-		JLabel l5 = new JLabel("Name:");
+		JLabel l5 = new JLabel("Name: "+str);
 		try{
             Font font = Font.createFont(Font.TRUETYPE_FONT, Login.class.getResourceAsStream("Rene Bieder  Milliard Light.otf"));
             l5.setFont(font.deriveFont(Font.BOLD, 20f));
         }
         catch(Exception e){}
-		l5.setBounds(15,60,150,40);
+		l5.setBounds(15,60,345,40);
 		l5.setForeground(new Color(53,0,102));
 		p2.add(l5);
 		JLabel l6 = new JLabel("ID:");
@@ -149,16 +155,16 @@ public class Home {
             l6.setFont(font.deriveFont(Font.BOLD, 20f));
         }
         catch(Exception e){}
-		l6.setBounds(15,90,150,40);
+		l6.setBounds(15,90,345,40);
 		l6.setForeground(new Color(53,0,102));
 		p2.add(l6);
-		JLabel l7 = new JLabel("Password:");
+		JLabel l7 = new JLabel("Password: "+pswrd);
 		try{
             Font font = Font.createFont(Font.TRUETYPE_FONT, Login.class.getResourceAsStream("Rene Bieder  Milliard Light.otf"));
             l7.setFont(font.deriveFont(Font.BOLD, 20f));
         }
         catch(Exception e){}
-		l7.setBounds(15,120,150,40);
+		l7.setBounds(15,120,345,40);
 		l7.setForeground(new Color(53,0,102));
 		p2.add(l7);
 		JLabel l8 = new JLabel("Salary:");
@@ -167,7 +173,7 @@ public class Home {
             l8.setFont(font.deriveFont(Font.BOLD, 20f));
         }
         catch(Exception e){}
-		l8.setBounds(15,150,150,40);
+		l8.setBounds(15,150,345,40);
 		l8.setForeground(new Color(53,0,102));
 		p2.add(l8);
 		JButton edit = new JButton("Edit Profile");
@@ -223,6 +229,6 @@ public class Home {
 	}
 	public static void main(String[] args) {
 		Home b = new Home();
-		b.home_display("User","");
+		b.home_display("User","abc");
 	}
 }
