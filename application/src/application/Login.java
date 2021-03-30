@@ -81,7 +81,7 @@ public class Login
 					else
 					{
 						f.hide();
-						new Home().home_display(tf.getText().toString());
+						new Home().home_display(tf.getText().toString(),pswrd.getText().toString());
 					}
 				}
 			}
