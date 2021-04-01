@@ -13,6 +13,9 @@ public class Home {
 	ImageIcon cmplogo = new ImageIcon(getClass().getResource("cmp_logo.png"));
 	ImageIcon cstlogo = new ImageIcon(getClass().getResource("cst_logo.png"));
 	ImageIcon trnslogo = new ImageIcon(getClass().getResource("trns_logo.jpg"));
+	ImageIcon editlogo = new ImageIcon(getClass().getResource("edit_logo.jpg"));
+	ImageIcon white_bg = new ImageIcon(getClass().getResource("white_bg.jpg"));
+	
 	static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	static final String NAME = "root";
 	static final String PASSWORD = "rootpassword";
@@ -20,15 +23,19 @@ public class Home {
 	static Connection connection;
 	static String query;
 	static Statement statement;
+	static ResultSet result;
+	static String strg;
 	static String pswrd;
+	
 	
 	public void home_display(String str) throws ClassNotFoundException, SQLException
 	{
+		strg = str;
 		Class.forName(DRIVER);
 		connection = DriverManager.getConnection(URL,NAME,PASSWORD);
 		statement = connection.createStatement();
 		query="select * from employee where ID="+str+";";
-		ResultSet result = statement.executeQuery(query);
+		result = statement.executeQuery(query);
 		if(result.next())
 		{
 			str=result.getString("Name");
@@ -166,7 +173,7 @@ public class Home {
 		l5.setBounds(15,60,345,40);
 		l5.setForeground(new Color(53,0,102));
 		p2.add(l5);
-		JLabel l6 = new JLabel("ID:");
+		JLabel l6 = new JLabel("ID: "+result.getString("ID"));
 		try{
             Font font = Font.createFont(Font.TRUETYPE_FONT, Login.class.getResourceAsStream("Rene Bieder  Milliard Light.otf"));
             l6.setFont(font.deriveFont(Font.BOLD, 20f));
@@ -184,7 +191,7 @@ public class Home {
 		l7.setBounds(15,120,345,40);
 		l7.setForeground(new Color(53,0,102));
 		p2.add(l7);
-		JLabel l8 = new JLabel("Salary:");
+		JLabel l8 = new JLabel("Salary: "+result.getString("Salary"));
 		try{
             Font font = Font.createFont(Font.TRUETYPE_FONT, Login.class.getResourceAsStream("Rene Bieder  Milliard Light.otf"));
             l8.setFont(font.deriveFont(Font.BOLD, 20f));
@@ -194,12 +201,12 @@ public class Home {
 		l8.setForeground(new Color(53,0,102));
 		p2.add(l8);
 		JButton edit = new JButton("Edit Profile");
-		edit.setBounds(75, 675, 150, 50);
+		edit.setBounds(75, 665, 150, 50);
 		edit.setFont(new Font("",Font.BOLD,16));
 		p1.add(edit);
 		JButton ret = new JButton("Logout");
 		ret.setFont(new Font("",Font.BOLD,16));
-		ret.setBounds(300, 675, 100, 50);
+		ret.setBounds(300, 665, 100, 50);
 		p1.add(ret);
 		ret.addActionListener(new ActionListener()
 		{
@@ -250,6 +257,127 @@ public class Home {
 				lgt.setLayout(null);
 				lgt.setVisible(true);
 				lgt.setResizable(false);
+			}
+		});
+		edit.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JFrame ep = new JFrame("Edit Profile");
+				ep.setBounds(600,250,500,350);
+				ep.setIconImage(editlogo.getImage());
+				JLabel bg1 = new JLabel("",white_bg,JLabel.CENTER);
+				bg1.setBounds(0, 0, 500, 350);
+				ep.add(bg1);
+				JLabel nn = new JLabel("New Name:");
+				nn.setBounds(50,30,300,30);
+				nn.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(nn);
+				JLabel ns = new JLabel("New Salary:");
+				ns.setBounds(50,60,100,30);
+				ns.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(ns);
+				JLabel ndb = new JLabel("New DOB:");
+				ndb.setBounds(50,90,300,30);
+				ndb.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(ndb);
+				JLabel ndj = new JLabel("New Date of Joining:");
+				ndj.setBounds(50,120,300,30);
+				ndj.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(ndj);
+				JLabel np = new JLabel("New Password:");
+				np.setBounds(50,150,300,30);
+				np.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(np);
+				JLabel na = new JLabel("New Address:");
+				na.setBounds(50,180,300,30);
+				na.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(na);
+				JTextField eda = new JTextField();
+				eda.setBounds(250,30,200,30);
+				eda.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(eda);
+				JTextField edb = new JTextField();
+				edb.setBounds(250,60,200,30);
+				edb.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(edb);
+				JTextField edc = new JTextField();
+				edc.setBounds(250,90,200,30);
+				edc.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(edc);
+				JTextField edd = new JTextField();
+				edd.setBounds(250,120,200,30);
+				edd.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(edd);
+				JTextField ede = new JTextField();
+				ede.setBounds(250,150,200,30);
+				ede.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(ede);
+				JTextField edf = new JTextField();
+				edf.setBounds(250,180,200,30);
+				edf.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				bg1.add(edf);
+				JButton save = new JButton("Save Changes");
+				save.setFont(new Font("",Font.BOLD,13));
+				save.setBounds(220, 250, 125, 35);
+				bg1.add(save);
+				JButton cancel = new JButton("Cancel");
+				cancel.setFont(new Font("",Font.BOLD,13));
+				cancel.setBounds(360, 250, 105, 35);
+				bg1.add(cancel);
+				cancel.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						ep.hide();
+					}
+				});
+				save.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						try {
+							String a;
+							a=eda.getText().toString();
+							if(a.equals(""))
+							a=" ";
+							query = "update employee set Name = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+							a=edb.getText().toString();
+							if(a.equals(""))
+							a="0";
+							query = "update employee set Salary = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+							a=ede.getText().toString();
+							if(a.equals(""))
+							a=" ";
+							query = "update employee set Password = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+							a=edf.getText().toString();
+							if(a.equals(""))
+							a=" ";
+							query = "update employee set Address = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+							a=edc.getText().toString();
+							if(a.equals(""))
+							a="0000/00/00";
+							query = "update employee set D_O_B = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+							a=edd.getText().toString();
+							if(a.equals(""))
+							a="0000/00/00";
+							query = "update employee set Date_of_Joining = '"+a+"' where ID = '"+strg+"';";
+							statement.execute(query);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						ep.hide();
+					}
+				});
+				ep.setResizable(false);
+				ep.setLayout(null);
+				ep.setVisible(true);
 			}
 		});
 		f.setLayout(null);
