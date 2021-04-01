@@ -8,6 +8,8 @@ public class Login
 	ImageIcon icon = new ImageIcon(getClass().getResource("login_icon.png"));
 	ImageIcon bkgrnd = new ImageIcon(getClass().getResource("Background.png"));
 	ImageIcon logo = new ImageIcon(getClass().getResource("logo.png"));
+	ImageIcon editlogo = new ImageIcon(getClass().getResource("edit_logo.jpg"));
+	ImageIcon white_bg = new ImageIcon(getClass().getResource("white_bg.jpg"));
 	static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	static final String NAME = "root";
 	static final String PASSWORD = "Niveshine150";
@@ -84,7 +86,7 @@ public class Login
 		pswrd.setBounds(380, 160, 170, 20);
 		bg.add(pswrd);
 		JButton lgin = new JButton("Login");
-		lgin.setBounds(330,220,70,20);
+		lgin.setBounds(300,220,70,20);
 		lgin.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -153,6 +155,11 @@ public class Login
 			}
 		});
 		bg.add(rst);
+		
+		
+	//////////////////////////////////////////////////////////////////////////
+		
+
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setResizable(false);
