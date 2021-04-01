@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
 import java.sql.*;
 public class Home {
 
@@ -14,9 +13,27 @@ public class Home {
 	ImageIcon cmplogo = new ImageIcon(getClass().getResource("cmp_logo.png"));
 	ImageIcon cstlogo = new ImageIcon(getClass().getResource("cst_logo.png"));
 	ImageIcon trnslogo = new ImageIcon(getClass().getResource("trns_logo.jpg"));
+	static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	static final String NAME = "root";
+	static final String PASSWORD = "rootpassword";
+	static final String URL = "jdbc:mysql://localhost:3306/dbs_v1";
+	static Connection connection;
+	static String query;
+	static Statement statement;
+	static String pswrd;
 	
-	public void home_display(String str,String pswrd)
+	public void home_display(String str) throws ClassNotFoundException, SQLException
 	{
+		Class.forName(DRIVER);
+		connection = DriverManager.getConnection(URL,NAME,PASSWORD);
+		statement = connection.createStatement();
+		query="select * from employee where ID="+str+";";
+		ResultSet result = statement.executeQuery(query);
+		if(result.next())
+		{
+			str=result.getString("Name");
+			pswrd=result.getString("Password");
+		}
 		Home b = new Home();
 		Border blackline = BorderFactory.createLineBorder(new Color(53,0,102));
 		JFrame f = new JFrame("Home");
@@ -213,7 +230,21 @@ public class Home {
 					{
 						lgt.hide();
 						f.hide();
-						new Main().main(null);
+						try {
+							new Main().main(null);
+						} catch (InstantiationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IllegalAccessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				lgt.setLayout(null);
@@ -227,8 +258,8 @@ public class Home {
 		f.setIconImage(logo.getImage());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		Home b = new Home();
-		b.home_display("User","abc");
+		b.home_display("0");
 	}
 }
