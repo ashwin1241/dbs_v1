@@ -182,7 +182,7 @@ public class Home {
 		l6.setBounds(15,90,345,40);
 		l6.setForeground(new Color(53,0,102));
 		p2.add(l6);
-		JLabel l7 = new JLabel("Password: "+pswrd);
+		JLabel l7 = new JLabel("Date of Joining: "+result.getString("Date_of_Joining"));
 		try{
             Font font = Font.createFont(Font.TRUETYPE_FONT, Login.class.getResourceAsStream("Rene Bieder  Milliard Light.otf"));
             l7.setFont(font.deriveFont(Font.BOLD, 20f));
@@ -269,6 +269,12 @@ public class Home {
 				JLabel bg1 = new JLabel("",white_bg,JLabel.CENTER);
 				bg1.setBounds(0, 0, 500, 350);
 				ep.add(bg1);
+				JLabel err = new JLabel("*Password must be within 6 and 14 characters");
+				err.setForeground(Color.red);
+				err.setFont(new Font("Times New Roman",Font.PLAIN,16));
+				err.setBounds(120, 220, 300, 20);
+				err.setVisible(false);
+				bg1.add(err);
 				JLabel nn = new JLabel("New Name:");
 				nn.setBounds(50,30,300,30);
 				nn.setFont(new Font("Times New Roman",Font.PLAIN,16));
@@ -294,27 +300,63 @@ public class Home {
 				na.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(na);
 				JTextField eda = new JTextField();
+				try {
+					eda.setText(result.getString("Name"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				eda.setBounds(250,30,200,30);
 				eda.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(eda);
 				JTextField edb = new JTextField();
 				edb.setBounds(250,60,200,30);
+				try {
+					edb.setText(result.getString("Salary"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				edb.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(edb);
 				JTextField edc = new JTextField();
 				edc.setBounds(250,90,200,30);
+				try {
+					edc.setText(result.getString("D_O_B"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				edc.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(edc);
 				JTextField edd = new JTextField();
 				edd.setBounds(250,120,200,30);
+				try {
+					edd.setText(result.getString("Date_of_Joining"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				edd.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(edd);
 				JTextField ede = new JTextField();
 				ede.setBounds(250,150,200,30);
+				try {
+					ede.setText(result.getString("Password"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				ede.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(ede);
 				JTextField edf = new JTextField();
 				edf.setBounds(250,180,200,30);
+				try {
+					edf.setText(result.getString("Address"));
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				edf.setFont(new Font("Times New Roman",Font.PLAIN,16));
 				bg1.add(edf);
 				JButton save = new JButton("Save Changes");
@@ -336,6 +378,9 @@ public class Home {
 				{
 					public void actionPerformed(ActionEvent e)
 					{
+						if((ede.getText().toString().length()<6||ede.getText().toString().length()>14)&&!eda.getText().toString().equals("admin"))
+						err.setVisible(true);
+						else {
 						try {
 							String a;
 							a=eda.getText().toString();
@@ -360,19 +405,27 @@ public class Home {
 							statement.execute(query);
 							a=edc.getText().toString();
 							if(a.equals(""))
-							a="0000/00/00";
+							a="0000-00-00";
 							query = "update employee set D_O_B = '"+a+"' where ID = '"+strg+"';";
 							statement.execute(query);
 							a=edd.getText().toString();
 							if(a.equals(""))
-							a="0000/00/00";
+							a="0000-00-00";
 							query = "update employee set Date_of_Joining = '"+a+"' where ID = '"+strg+"';";
 							statement.execute(query);
+							f.hide();
+							Home asp = new Home();
+							try {
+								asp.home_display(strg);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						ep.hide();
+						ep.hide();}
 					}
 				});
 				ep.setResizable(false);
