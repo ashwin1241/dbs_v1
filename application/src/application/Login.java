@@ -2,11 +2,19 @@ package application;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.sql.*;
 public class Login 
 {
 	ImageIcon icon = new ImageIcon(getClass().getResource("login_icon.png"));
 	ImageIcon bkgrnd = new ImageIcon(getClass().getResource("Background.png"));
 	ImageIcon logo = new ImageIcon(getClass().getResource("logo.png"));
+	static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	static final String NAME = "root";
+	static final String PASSWORD = "rootpassword";
+	static final String URL = "jdbc:mysql://localhost:3306/dbs_v1";
+	static Connection connection;
+	static String query;
+	static Statement statement;
 	
 	public void login_show()
 	{
@@ -30,7 +38,7 @@ public class Login
         catch(Exception e){}
 		bg.add(l1);
 		JLabel l2 = new JLabel();
-		l2.setText("Username:");
+		l2.setText("ID:");
 		l2.setFont(new Font("",Font.PLAIN,14));
 		l2.setForeground(Color.lightGray);
 		l2.setBounds(280,130,70,20);
@@ -58,6 +66,20 @@ public class Login
 		msg2.setForeground(Color.red);
 		msg2.setVisible(false);
 		bg.add(msg2);
+		JLabel msg3 = new JLabel();
+		msg3.setText("*Incorrect Password");
+		msg3.setBounds(350,260,300,20);
+		msg3.setFont(new Font("Arial",Font.PLAIN,14));
+		msg3.setForeground(Color.red);
+		msg3.setVisible(false);
+		bg.add(msg3);
+		JLabel msg4 = new JLabel();
+		msg4.setText("*Incorrect ID");
+		msg4.setBounds(350,260,300,20);
+		msg4.setFont(new Font("Arial",Font.PLAIN,14));
+		msg4.setForeground(Color.red);
+		msg4.setVisible(false);
+		bg.add(msg4);
 		JPasswordField pswrd = new JPasswordField();
 		pswrd.setBounds(380, 160, 170, 20);
 		bg.add(pswrd);
@@ -69,19 +91,48 @@ public class Login
 			{
 				msg1.setVisible(false);
 				msg2.setVisible(false);
+				msg3.setVisible(false);
+				msg4.setVisible(false);
 				
 				String s = pswrd.getText().toString();
 				String t = tf.getText().toString();
-				if(s.length()==0||t.length()==0)
+				if((s.length()==0||t.length()==0)&&!t.equals("0"))
 				msg2.setVisible(true);
 				else
 				{
-					if(s.length()<6||s.length()>14)
+					if((s.length()<6||s.length()>14)&&!t.equals("0"))
 					msg1.setVisible(true);
 					else
 					{
-						f.hide();
-						new Home().home_display(tf.getText().toString(),pswrd.getText().toString());
+						try
+						{
+							Class.forName(DRIVER);
+							connection = DriverManager.getConnection(URL,NAME,PASSWORD);
+							statement = connection.createStatement();
+							query="select * from employee where ID="+t+";";
+							ResultSet result = statement.executeQuery(query);
+							if(result.next())
+							{
+								if(result.getString("Password").equals(s))
+								{
+									f.hide();
+									new Home().home_display(t);
+									//System.out.println("Login successful!");
+								}
+								else
+								{
+									msg3.setVisible(true);
+								}
+							}
+							else
+							{
+								msg4.setVisible(true);
+							}
+						}
+						catch(Exception ef)
+						{
+							ef.printStackTrace();
+						}
 					}
 				}
 			}
@@ -97,6 +148,8 @@ public class Login
 				tf.setText("");
 				msg1.setVisible(false);
 				msg2.setVisible(false);
+				msg3.setVisible(false);
+				msg4.setVisible(false);
 			}
 		});
 		bg.add(rst);
