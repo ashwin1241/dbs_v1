@@ -1,11 +1,25 @@
 package application;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.sql.*;
-public class Home {
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+
+public class Transaction {
 	ImageIcon logo = new ImageIcon(getClass().getResource("logo.png"));
 	ImageIcon bkgrd = new ImageIcon(getClass().getResource("home_bg.jpg"));
 	ImageIcon medc = new ImageIcon(getClass().getResource("medicines.png"));
@@ -43,7 +57,7 @@ public class Home {
 		}
 		Home b = new Home();
 		Border blackline = BorderFactory.createLineBorder(new Color(53,0,102));
-		JFrame f = new JFrame("Home");
+		JFrame f = new JFrame("Transaction");
 		f.setBounds(-10,-5,1920,1080);
 		JLabel bg = new JLabel("",bkgrd,JLabel.CENTER);
 		bg.setBounds(-50,-50,1920,1080);
@@ -97,141 +111,6 @@ public class Home {
         }
         catch(Exception e){}
 		p0.add(l1);
-		JButton new_acc = new JButton("Create New Account");
-		new_acc.setBounds(1250, 75, 160, 40);
-		new_acc.addActionListener(new ActionListener()
-		{
-			
-
-			public void actionPerformed(ActionEvent e)
-			{
-				JFrame ep = new JFrame("Create New Account");
-				ep.setBounds(600,250,500,400);
-				ep.setIconImage(editlogo.getImage());
-				JLabel bg1 = new JLabel("",white_bg,JLabel.CENTER);
-				bg1.setBounds(0, 0, 500, 350);
-				ep.add(bg1);
-				JLabel err = new JLabel("*Password must be within 6 and 14 characters");
-				err.setForeground(Color.red);
-				err.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				err.setBounds(120, 220, 300, 20);
-				err.setVisible(false);
-				bg1.add(err);
-				JLabel ni = new JLabel("New Id:");
-				ni.setBounds(50,30,300,30);
-				ni.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(ni);
-				JLabel nn = new JLabel("New Name:");
-				nn.setBounds(50,60,300,30);
-				nn.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(nn);
-				JLabel ns = new JLabel("New Salary:");
-				ns.setBounds(50,90,100,30);
-				ns.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(ns);
-				JLabel ndb = new JLabel("New DOB:");
-				ndb.setBounds(50,120,300,30);
-				ndb.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(ndb);
-				JLabel ndj = new JLabel("New Date of Joining:");
-				ndj.setBounds(50,150,300,30);
-				ndj.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(ndj);
-				JLabel np = new JLabel("New Password:");
-				np.setBounds(50,180,300,30);
-				np.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(np);
-				JLabel na = new JLabel("New Address:");
-				na.setBounds(50,210,300,30);
-				na.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(na);
-				JTextField edz = new JTextField();
-				
-				edz.setBounds(250,30,200,30);
-				edz.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(edz);
-				JTextField eda = new JTextField();
-				
-				eda.setBounds(250,60,200,30);
-				eda.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(eda);
-				JTextField edb = new JTextField();
-				edb.setBounds(250,90,200,30);
-				
-				edb.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(edb);
-				JTextField edc = new JTextField();
-				edc.setBounds(250,120,200,30);
-				
-				edc.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(edc);
-				JTextField edd = new JTextField();
-				edd.setBounds(250,150,200,30);
-				
-				edd.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(edd);
-				JTextField ede = new JTextField();
-				ede.setBounds(250,180,200,30);
-				
-				ede.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(ede);
-				JTextField edf = new JTextField();
-				edf.setBounds(250,210,200,30);
-				
-				edf.setFont(new Font("Times New Roman",Font.PLAIN,16));
-				bg1.add(edf);
-				JButton save = new JButton("Save Changes");
-				save.setFont(new Font("",Font.BOLD,13));
-				save.setBounds(220, 280, 125, 35);
-				bg1.add(save);
-				JButton cancel = new JButton("Cancel");
-				cancel.setFont(new Font("",Font.BOLD,13));
-				cancel.setBounds(360, 280, 105, 35);
-				bg1.add(cancel);
-				cancel.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						ep.hide();
-					}
-				});
-				save.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						String s_id=edz.getText().toString();
-						String s_name=eda.getText().toString();
-						String s_sal=edb.getText().toString();
-						String s_dob=edc.getText().toString();
-						String s_doj=edd.getText().toString();
-						String s_pass=ede.getText().toString();
-						String s_add=edf.getText().toString();
-						
-						String query="insert into dbs_v1.employee values('"+s_id+"','"+s_add+"','"+s_name+"','"+s_doj+"','"+s_dob+"','"+s_pass+"','"+s_sal+"'); ";
-						
-						
-									
-						try
-						{
-							statement.execute(query);
-							
-						}
-						catch(Exception ef)
-						{
-							ef.printStackTrace();
-						}
-						ep.hide();
-						
-						
-						
-					}
-				});
-				ep.setResizable(false);
-				ep.setLayout(null);
-				ep.setVisible(true);
-			}
-		});
-		
 		JLabel l2 = new JLabel();
 		l2.setText("Home");
 		l2.setFont(new Font("Times New Roman",Font.ITALIC,25));
@@ -243,16 +122,6 @@ public class Home {
         }
         catch(Exception e){}
 		p0.add(l2);
-		
-		
-		
-		p0.add(new_acc);
-		if(strg!="0") {
-			new_acc.setVisible(false);
-		}
-			
-		
-
 		JLabel l3 = new JLabel("Login History");
 		l3.setFont(new Font("Times New Roman",Font.BOLD,25));
 		l3.setForeground(new Color(53,0,102));
@@ -262,11 +131,6 @@ public class Home {
             l3.setFont(font.deriveFont(Font.BOLD, 25f));
         }
         catch(Exception e){}
-		
-		
-		
-		
-		
 		bg.add(l3);
 		JButton med = new JButton(medc);
 		med.setBounds(70,10,160,160);
@@ -583,17 +447,6 @@ public class Home {
 				ep.setVisible(true);
 			}
 		});
-		
-		////////////////////////////////////////////////////////
-		
-		
-		
-		
-		
-		
-		
-	///////////////////////////////////////////////////////////////////	
-		
 		f.setLayout(null);
 		f.setVisible(true);
 		f.setResizable(false);
@@ -604,4 +457,5 @@ public class Home {
 		Home b = new Home();
 		b.home_display("0");
 	}
+
 }
